@@ -6,7 +6,7 @@ from typing import Dict, List
 from PyPDF2 import PdfMerger
 from tqdm import tqdm
 
-SHEET_FOLDER_PATH = Path("/home/lukas/Dokumente/Noten/temp/OneDrive_2025-12-02/Nach Stücken sortiert")
+SHEET_FOLDER_PATH = Path("/home/lukas/Dokumente/Noten/temp/OneDrive_2025-12-02/OneDrive_2025-12-04/Nach Stücken sortiert")
 OUTPUT_PATH = Path("/home/lukas/Dokumente/Noten/temp/Notenmappen-Sortiert")
 
 REPERTOIRE = [
@@ -17,6 +17,7 @@ REPERTOIRE = [
     "Blas'_Musik_in_die_Welt!",
     "Böhmische_Liebe",
     "Böhmischer_Traum",
+    "Borsicka-Polka",
     "Bozner_Bergsteiger-Marsch",
     "Da_Capo",
     "Dem_Land_Tirol_die_Treue",
@@ -63,25 +64,25 @@ REPERTOIRE = [
 
 # define which folder contains which parts
 FOLDER_TO_PART = {
-    "1. Flöte + Piccolo": ["Flöte_1_C", "Flöte_C", "Piccolo_C"],  # 1 mal
-    "1. Flöte": ["Flöte_1_C", "Flöte_C"],  # 1 mal
-    "2. Flöte": ["Flöte_2_C", "Flöte_C"],  # 2 mal
-    "1. Klarinette": ["Klarinette_1_B"],  # 1 mal
-    "2. Klarinette": ["Klarinette_23_B", "Klarinette_2_B"],  # 1 mal
-    "3. Klarinette": ["Klarinette_23_B", "Klarinette_3_B"],  # 1 mal
-    "Es-Klarinette": [
+    "Flöte 1 + Piccolo": ["Flöte_1_C", "Flöte_C", "Piccolo_C"],  # 1 mal
+    "Flöte 1": ["Flöte_1_C", "Flöte_C"],  # 1 mal
+    "Flöte 2": ["Flöte_2_C", "Flöte_C"],  # 2 mal
+    "Klarinette 1": ["Klarinette_1_B"],  # 1 mal
+    "Klarinette 2": ["Klarinette_23_B", "Klarinette_2_B"],  # 1 mal
+    "Klarinette 3": ["Klarinette_23_B", "Klarinette_3_B"],  # 1 mal
+    "Klarinette Es": [
         "Klarinette_Es",
         "Klarinette_2_Es",
         "Klarinette_E",
         "Klarinette_2_E",
     ],  # 1 mal
-    "1. Alt-Saxophon": [
+    "Alt-Saxophon 1": [
         "Alt-Saxophon_1_Es",
         "Alt-Saxophon_Es",
         "Alt-Saxophon_1_E",
         "Alt-Saxophon_E",
     ],  # 1 mal
-    "2. Alt-Saxophon": [
+    "Alt-Saxophon 2": [
         "Alt-Saxophon_2_Es",
         "Alt-Saxophon_Es",
         "Alt-Saxophon_2_E",
@@ -95,49 +96,49 @@ FOLDER_TO_PART = {
         "Bariton-Saxophon_Es",
         "Bariton-Saxophon_E",
     ],  # 1 mal
-    "1. Trompete": ["Trompete_1_B", "Trompete_B", "Trompete_Solo_B"],  # 1 mal
-    "2. Trompete": ["Trompete_2_B", "Tompete_2_B"],  # 1 mal
-    "3. + 4. Trompete": ["Trompete_3_B", "Trompete_4_B"],  # 1 mal
-    "1. Flügelhorn": ["Flügelhorn_1-B", "Flügelhorn_1_B"],  # 2 mal
-    "2. Flügelhorn": ["Flügelhorn_2_B", "Flügelhorn_3_B"],  # 2 mal
-    "1. Tenorhorn in B": ["Tenorhorn_1-B", "Tenorhorn_1_B", "Tenorhorn_B"],  # 2 mal
-    "2. Tenorhorn in B": ["Tenorhorn_2_B", "Tenorhorn_B"],  # 1 mal
-    "1. (3.) Horn in F": [
+    "Trompete 1": ["Trompete_1_B", "Trompete_B", "Trompete_Solo_B"],  # 1 mal
+    "Trompete 2": ["Trompete_2_B", "Tompete_2_B"],  # 1 mal
+    "Trompete 3 + 4": ["Trompete_3_B", "Trompete_4_B"],  # 1 mal
+    "Flügelhorn 1": ["Flügelhorn_1-B", "Flügelhorn_1_B"],  # 2 mal
+    "Flügelhorn 2": ["Flügelhorn_2_B", "Flügelhorn_3_B"],  # 2 mal
+    "Tenorhorn 1 in B": ["Tenorhorn_1-B", "Tenorhorn_1_B", "Tenorhorn_B"],  # 2 mal
+    "Tenorhorn 2 in B": ["Tenorhorn_2_B", "Tenorhorn_B"],  # 1 mal
+    "Horn 1 + 3 in F": [
         "Horn_1_F",
         "Horn_Melodie_1_F",
         "Horn_Melodie_F",
         "Horn_3_F",
     ],  # 1 mal
-    "2. (4.) Horn in F": [
+    "Horn 2 + 4 in F": [
         "Horn_2-F",
         "Horn_2_F",
         "Horn_Melodie_2_F",
         "Horn_Melodie_F",
         "Horn_4_F",
     ],  # 1 mal
-    "1. Posaune": [
+    "Posaune 1": [
         "Posaune_1_C",
         "Posaune_1_C_Bass",
         "Posaune_Begleitung_1_C",
         "Posaune_C",
         "Posaune_Melodie_C",
     ],  # 1 mal
-    "2. Posaune": [
+    "Posaune 2": [
         "Posaune_2_C",
         "Posaune_2_C_Bass",
         "Posaune_Begleitung_2_C",
         "Posaune_C",
         "Posaune_Melodie_C",
     ],  # 1 mal
-    "3. Posaune": [
+    "Posaune 3": [
         "Posaune_3_C",
         "Posaune_3_C_Bass",
         "Posaune_Begleitung_3_C",
     ],  # 1 mal
     "Bariton in B": ["Bariton_B", "Bariton_1_B", "Bariton_B_Violin"],  # 2 mal
     "Bariton in C": ["Bariton_C", "Bariton_1_C"],  # 2 mal
-    "1. Bass in C": ["Bass_1_C", "Bass_C"],  # 1 mal
-    "2. Bass in C": ["Bass_2_C", "Bass_C"],  # 1 mal
+    "Bass 1 in C": ["Bass_1_C", "Bass_C"],  # 1 mal
+    "Bass 2 in C": ["Bass_2_C", "Bass_C"],  # 1 mal
     "Bass in B + Eb": [
         "Bass_1_B",
         "Bass_B",
@@ -163,23 +164,23 @@ FOLDER_TO_PART = {
 
 # Define replacements for missing parts
 REPLACEMENTS = {
-    "1. Alt-Saxophon": ["Es-Klarinette"],
-    "2. Alt-Saxophon": ["1. Alt-Saxophon", "Es-Klarinette"],
-    "Tenor-Saxophon + BariSax": ["1. Tenorhorn in B"],
-    "2. Bass in C": ["1. Bass in C"],
-    "2. Flöte": ["1. Flöte"],
-    "2. (4.) Horn in F": ["1. (3.) Horn in F"],
-    "2. Klarinette": ["1. Klarinette"],
-    "3. Klarinette": ["2. Klarinette", "1. Klarinette"],
-    "3. Posaune": ["2. Posaune", "1. Posaune"],
-    "2. Tenorhorn in B": ["1. Tenorhorn in B"],
-    "2. Trompete": ["1. Trompete"],
-    "3. + 4. Trompete": ["2. Trompete", "1. Trompete"],
-    "2. Flügelhorn": ["1. Flügelhorn", "2. Trompete"],
-    "1. Flügelhorn": ["1. Trompete"],
-    "Bariton in B": ["2. Tenorhorn in B", "1. Tenorhorn in B"],
-    "Bariton in C": ["2. Posaune", "1. Posaune"],
-    "1. Bass in C": ["2. Bass in C"],
+    "Alt-Saxophon 1": ["Klarinette Es"],
+    "Alt-Saxophon 2": ["Alt-Saxophon 1", "Klarinette Es"],
+    "Tenor-Saxophon + BariSax": ["Tenorhorn 1 in B"],
+    "Bass 2 in C": ["Bass 1 in C"],
+    "Flöte 2": ["Flöte 1"],
+    "Horn 2 + 4 in F": ["Horn 1 + 3 in F"],
+    "Klarinette 2": ["Klarinette 1"],
+    "Klarinette 3": ["Klarinette 2", "Klarinette 1"],
+    "Posaune 3": ["Posaune 2", "Posaune 1"],
+    "Tenorhorn 2 in B": ["Tenorhorn 1 in B"],
+    "Trompete 2": ["Trompete 1"],
+    "Trompete 3 + 4": ["Trompete 2", "Trompete 1"],
+    "Flügelhorn 2": ["Flügelhorn 1", "Trompete 2"],
+    "Flügelhorn 1": ["Trompete 1"],
+    "Bariton in B": ["Tenorhorn 2 in B", "Tenorhorn 1 in B"],
+    "Bariton in C": ["Posaune 2", "Posaune 1"],
+    "Bass 1 in C": ["Bass 2 in C"],
 }
 
 # make reverse dict for later sorting
